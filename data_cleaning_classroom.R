@@ -1,6 +1,10 @@
 #Data Cleaning for Data
   #written by Cora Allen-Coleman & Kelly Savietta
 library(tidyverse)
+library(igraph)
+library(rjson)
+
+
 #set working directory
 setwd("/Users/cora/git_repos/dynamic_network_viz/Classroom_RSienaSession")
 
@@ -18,7 +22,7 @@ alcohol <- read.table("classroom_alcohol.dat", #changing individual covariate al
                     header=FALSE)
 gender <- read.table("classroom_demographics.dat", #constant individual covariate sex: 1 = girl, 2 = boy
                     header=FALSE)
-RSiena <- read.csv("classroom_RSienaSessionFile.csv", header = FALSE)
+#RSiena <- read.csv("classroom_RSienaSessionFile.csv", header = FALSE)
 
 ## NODES ##
 #use gender df as user df (NODES)
@@ -28,14 +32,34 @@ colnames(gender) <- c("gender", "id")
 gender <- gender[, c(2, 1)]
 
 #EDGES
-library(igraph)
+time1 <- mutate_all(time1, function(x) as.double(x))
+time1_edges <- as.data.frame(get.edgelist(graph_from_adjacency_matrix(as.matrix(time1))))
+colnames(time1_edges) <- c("source", "target")
+
+time2 <- mutate_all(time2, function(x) as.double(x))
+time2_edges <- as.data.frame(get.edgelist(graph_from_adjacency_matrix(as.matrix(time2))))
+colnames(time2_edges) <- c("source", "target")
+
+time3 <- mutate_all(time3, function(x) as.double(x))
+time3_edges <- as.data.frame(get.edgelist(graph_from_adjacency_matrix(as.matrix(time3))))
+colnames(time3_edges) <- c("source", "target")
+
 time4 <- mutate_all(time4, function(x) as.double(x))
 time4_edges <- as.data.frame(get.edgelist(graph_from_adjacency_matrix(as.matrix(time4))))
 colnames(time4_edges) <- c("source", "target")
 
 #convert to json
-library(rjson)
+time1_json <- toJSON(unname(split(time1_edges, 1:nrow(time1_edges))))
+write(time1_json, "time1_json.json")
+
+time2_json <- toJSON(unname(split(time2_edges, 1:nrow(time2_edges))))
+write(time2_json, "time2_json.json")
+
+time3_json <- toJSON(unname(split(time3_edges, 1:nrow(time3_edges))))
+write(time3_json, "time3_json.json")
+
 time4_json <- toJSON(unname(split(time4_edges, 1:nrow(time4_edges))))
 write(time4_json, "time4_json.json")
+
 gender_json <- toJSON(unname(split(gender, 1:nrow(gender))))
 write(gender_json, "gender.json")
