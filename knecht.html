@@ -57,7 +57,7 @@ var iteration = 1;
 d3.interval(function() {
   var filename = "dist/time" + iteration + "_json.json";
   ++iteration;
-  if (iteration === 4) t.stop();
+  // if (iteration === 4) t.stop();
   console.log("iteration", iteration);
   restart(filename);
 }, 2000, d3.now());
