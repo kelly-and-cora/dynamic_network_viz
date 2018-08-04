@@ -37,5 +37,6 @@ colnames(time4_edges) <- c("source", "target")
 
 #convert to json
 library(rjson)
-time4_json <- toJSON(time4_edges)
+time4_json <- toJSON(unname(split(time4_edges, 1:nrow(time4_edges))))
 time4_json
+write(time4_json, "time4_json.json")
