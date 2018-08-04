@@ -10,12 +10,12 @@ setwd("/Users/cora/git_repos/dynamic_network_viz/data")
 
 #26 students
 time1 <- read.table("classroom_net1.dat", header=FALSE)
-time2 <- read.table("classroom_net2.dat", 
-                    header=FALSE)
-time3 <- read.table("classroom_net3.dat", 
-                    header=FALSE)
-time4 <- read.table("classroom_net4.dat", 
-                    header=FALSE)
+colnames(time1) <- seq(1:26)
+time2 <- read.table("classroom_net2.dat", header=FALSE)
+colnames(time2) <- seq(1:26)
+time3 <- read.table("classroom_net3.dat", header=FALSE)
+colnames(time3) <- seq(1:26)
+time4 <- read.table("classroom_net4.dat", header=FALSE)
 colnames(time4) <- seq(1:26)
 primary <- read.table("classroom_primary.dat", header=FALSE) #changing dyadic covariate primary: (Have you gone to the same primary school?) 0 = no, 1 = yes
 alcohol <- read.table("classroom_alcohol.dat", #changing individual covariate alcohol: (How often did you drink alcohol with friends in the last three months?) 1 = never, 2 = once, 3 = 2-4 times, 4 = 5-10 times, 5 = more that 10 times
