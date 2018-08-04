@@ -3,33 +3,39 @@
 library(tidyverse)
 #set working directory
 setwd("/Users/cora/git_repos/dynamic_network_viz/Classroom_RSienaSession")
-#readLines("classroom_net1.dat", n = 10)
-time1 <- read.table("classroom_net1.dat", header=TRUE)
+
+#26 students
+time1 <- read.table("classroom_net1.dat", header=FALSE)
 time2 <- read.table("classroom_net2.dat", 
-                    header=TRUE)
+                    header=FALSE)
 time3 <- read.table("classroom_net3.dat", 
-                    header=TRUE)
+                    header=FALSE)
 time4 <- read.table("classroom_net4.dat", 
-                    header=TRUE)
-primary <- read.table("classroom_primary.dat", header=TRUE) #changing dyadic covariate primary: (Have you gone to the same primary school?) 0 = no, 1 = yes
+                    header=FALSE)
+colnames(time4) <- seq(1:26)
+primary <- read.table("classroom_primary.dat", header=FALSE) #changing dyadic covariate primary: (Have you gone to the same primary school?) 0 = no, 1 = yes
 alcohol <- read.table("classroom_alcohol.dat", #changing individual covariate alcohol: (How often did you drink alcohol with friends in the last three months?) 1 = never, 2 = once, 3 = 2-4 times, 4 = 5-10 times, 5 = more that 10 times
-                    header=TRUE)
+                    header=FALSE)
 gender <- read.table("classroom_demographics.dat", #constant individual covariate sex: 1 = girl, 2 = boy
-                    header=TRUE)
-RSiena <- read.csv("classroom_RSienaSessionFile.csv", header = TRUE)
+                    header=FALSE)
+RSiena <- read.csv("classroom_RSienaSessionFile.csv", header = FALSE)
 
 ## NODES ##
 #use gender df as user df (NODES)
-gender$id <- seq(1:25) 
+gender$id <- seq(1:26) 
 colnames(gender) <- c("gender", "id")
 #reorder columns of df
 gender <- gender[, c(2, 1)]
 
 #EDGES
-
-
+library(igraph)
+time4 <- mutate_all(time4, function(x) as.double(x))
+time4 <- as.matrix(time4)
+time4_edges <- get.edgelist(graph_from_adjacency_matrix(time4))
+time4_edges <- as.data.frame(time4_edges) #to df
+colnames(time4_edges) <- c("source", "target")
 
 #convert to json
 library(rjson)
-x <- toJSON(gender)
-x[1]
+time4_json <- toJSON(time4_edges)
+time4_json
