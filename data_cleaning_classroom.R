@@ -30,13 +30,12 @@ gender <- gender[, c(2, 1)]
 #EDGES
 library(igraph)
 time4 <- mutate_all(time4, function(x) as.double(x))
-time4 <- as.matrix(time4)
-time4_edges <- get.edgelist(graph_from_adjacency_matrix(time4))
-time4_edges <- as.data.frame(time4_edges) #to df
+time4_edges <- as.data.frame(get.edgelist(graph_from_adjacency_matrix(as.matrix(time4))))
 colnames(time4_edges) <- c("source", "target")
 
 #convert to json
 library(rjson)
 time4_json <- toJSON(unname(split(time4_edges, 1:nrow(time4_edges))))
-time4_json
 write(time4_json, "time4_json.json")
+gender_json <- toJSON(unname(split(gender, 1:nrow(gender))))
+write(gender_json, "gender.json")
