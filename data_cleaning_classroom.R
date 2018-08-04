@@ -6,7 +6,7 @@ library(rjson)
 
 
 #set working directory
-setwd("/Users/cora/git_repos/dynamic_network_viz/Classroom_RSienaSession")
+setwd("/Users/cora/git_repos/dynamic_network_viz/data")
 
 #26 students
 time1 <- read.table("classroom_net1.dat", header=FALSE)
