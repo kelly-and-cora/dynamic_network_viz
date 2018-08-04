@@ -22,8 +22,18 @@ var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
 
-var nodes = [],
-    links = [];
+var node = svg.append("g").attr("class", "nodes").selectAll("circle").data(graph.nodes);
+    node.exit().remove();
+    node.enter().append("circle")
+        .attr("r", 5)
+        .attr("fill", function(d) { return color(d.gender); })
+        .call(d3.drag()
+            .on("start", dragstarted)
+            .on("drag", dragged)
+            .on("end", dragended));
+var link = svg.append("g").attr("class", "links").selectAll("line").data(graph.links);
+    link.exit().remove();
+    link.enter().append("line").attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
