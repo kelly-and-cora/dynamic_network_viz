@@ -25,6 +25,7 @@ var t = d3.timer(function(elapsed) {
   loadGraph(filename)
   ++iteration;
   if (iteration === 4) t.stop();
+  console.log("iteration", iteration);
 }, 1000);
 
 var svg = d3.select("svg"),
