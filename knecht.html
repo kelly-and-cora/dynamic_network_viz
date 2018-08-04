@@ -15,7 +15,13 @@
 </style>
 <svg width="960" height="600"></svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/d3-timer.v1.min.js"></script>
 <script>
+//var timer = d3.timer(callback);
+var t = d3.timer(function(elapsed) {
+  console.log(elapsed);
+  if (elapsed > 3000) t.stop();
+}, 150);
 
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
