@@ -1,9 +1,7 @@
 
-## Welcome to Dynamic Network Viz
+## Welcome to Knect Classroom Network Viz
 
-URL: https://ksavietta.github.io/dynamic_network_viz/
-
-Dataset: Knecht Classroom Data http://visone.info/wiki/index.php/Knecht_Classroom_(data)
-Tools: https://d3js.org/
+* Knecht Classroom Data: [http://visone.info/wiki/index.php/Knecht_Classroom](http://visone.info/wiki/index.php/Knecht_Classroom_(data))
+* Tools: [https://d3js.org/](https://d3js.org/)
 
 [Check it out here!](knect.html)
