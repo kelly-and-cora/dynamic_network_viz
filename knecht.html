@@ -45,7 +45,7 @@ d3.json('dist/time1_json.json', function(error, graph) {
       .force("center", d3.forceCenter(width / 2, height / 2))
       .alphaTarget(1)
       .on("tick", ticked);
-}
+});
 
 // var iteration = 1;
 // var t = d3.timer(function(elapsed) {
