@@ -18,8 +18,16 @@ gender <- read.table("classroom_demographics.dat", #constant individual covariat
                     header=TRUE)
 RSiena <- read.csv("classroom_RSienaSessionFile.csv", header = TRUE)
 
-#combine into one dataframe
-bind_cols(gender)
+## NODES ##
+#use gender df as user df (NODES)
+gender$id <- seq(1:25) 
+colnames(gender) <- c("gender", "id")
+#reorder columns of df
+gender <- gender[, c(2, 1)]
+
+#EDGES
+
+
 
 #convert to json
 library(rjson)
