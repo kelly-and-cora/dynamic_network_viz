@@ -1,0 +1,8 @@
+"Group","Name","Filename","Format","Period","ActorSet","Type","Selected","MissingValues","NonZeroCode"
+"Group1","friends","classroom_net1.dat","matrix","1","Actors","network","Yes","9","1"
+"Group1","friends","classroom_net2.dat","matrix","2","Actors","network","Yes","9","1"
+"Group1","friends","classroom_net3.dat","matrix","3","Actors","network","Yes","9","1"
+"Group1","friends","classroom_net4.dat","matrix","4","Actors","network","Yes","9","1"
+"Group1","gender","classroom_demographics.dat","matrix","1","Actors","constant covariate","Yes","0","1"
+"Group1","alcohol","classroom_alcohol.dat","matrix","1","Actors","changing covariate","Yes","0","1"
+"Group1","primary","classroom_primary.dat","matrix","1","Actors","constant dyadic covariate","Yes","9","1"
