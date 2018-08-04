@@ -69,14 +69,14 @@ d3.json('dist/time1_json.json', function(error, graph) {
 //   restart(filename);
 // }, 1000);
 
-var iteration = 2;
-d3.interval(function() {
-  var filename = "dist/time" + iteration + "_json.json";
-  ++iteration;
-  // if (iteration === 4) t.stop();
-  console.log("iteration", iteration);
-  restart(filename);
-}, 2000, d3.now());
+// var iteration = 2;
+// d3.interval(function() {
+//   var filename = "dist/time" + iteration + "_json.json";
+//   ++iteration;
+//   // if (iteration === 4) t.stop();
+//   console.log("iteration", iteration);
+//   restart(filename);
+// }, 2000, d3.now());
 
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
