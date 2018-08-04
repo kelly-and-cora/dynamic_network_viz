@@ -18,19 +18,12 @@
 <script src="https://d3js.org/d3-timer.v1.min.js"></script>
 <script>
 
-var iteration = 1;
-
-var t = d3.timer(function(elapsed) {
-  var filename = "dist/time" + iteration + "_json.json";
-  ++iteration;
-  if (iteration === 4) t.stop();
-  console.log("iteration", iteration);
-  restart(filename);
-}, 1000);
-
 var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
+
+var nodes = [],
+    links = [];
 
 var color = d3.scaleOrdinal(d3.schemeCategory20);
 
@@ -38,7 +31,26 @@ var simulation = d3.forceSimulation()
     .force("link", d3.forceLink().id(function(d) { return d.id; }))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(width / 2, height / 2))
-    .alphaTarget(1);
+    .alphaTarget(1)
+    .on("tick", ticked);
+
+// var iteration = 1;
+// var t = d3.timer(function(elapsed) {
+//   var filename = "dist/time" + iteration + "_json.json";
+//   ++iteration;
+//   if (iteration === 4) t.stop();
+//   console.log("iteration", iteration);
+//   restart(filename);
+// }, 1000);
+
+var iteration = 1;
+d3.interval(function() {
+  var filename = "dist/time" + iteration + "_json.json";
+  ++iteration;
+  if (iteration === 4) t.stop();
+  console.log("iteration", iteration);
+  restart(filename);
+}, 2000, d3.now());
 
 function dragstarted(d) {
   if (!d3.event.active) simulation.alphaTarget(0.3).restart();
@@ -90,13 +102,8 @@ function restart(filename) {
     link.enter().append("line").attr("stroke-width", function(d) { return Math.sqrt(d.value); });
 
     // Update and restart the simulation.
-    simulation
-        .nodes(graph.nodes)
-        .on("tick", ticked);
-
-    simulation.force("link")
-            .links(graph.links);
-
+    simulation.nodes(graph.nodes);
+    simulation.force("link").links(graph.links);
     simulation.alpha(1).restart();
   });
 }
