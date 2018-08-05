@@ -2,3 +2,5 @@
 * Tools: [https://d3js.org/](https://d3js.org/)
 
 [Check it out here!](knecht.html)
+
+Run locally: `python -m http.server`
