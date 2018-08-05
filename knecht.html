@@ -15,11 +15,6 @@
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/d3-timer.v1.min.js"></script>
 <script>
-  //var timer = d3.timer(callback);
-  // var t = d3.timer(function(elapsed) {
-  //   console.log(elapsed);
-  //   if (elapsed > 3000) t.stop();
-  // }, 150);
 
   var svg = d3.select("svg"),
       width = +svg.attr("width"),
@@ -35,27 +30,56 @@
   var node;
   var link;
 
+  var timer = d3.timer(callback);
+  var t = d3.timer(function(elapsed) {
+    console.log(elapsed);
+    if (elapsed > 3000) t.stop();
+  }, 2000);
+
   d3.json("dist/time1_json.json", function(error, graph) {
     if (error) throw error;
-    console.log('graph',graph.nodes)
     nodes = graph.nodes;
     links = graph.links;
     loadGraph(nodes, links);
   })
 
-
   function loadGraph(nodes, links) {
-    var link = svg.append("g")
-                .attr("class", "links")
-                .selectAll("line")
-                .data(links)
-                .enter().append("line")
-                .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
-    var node = svg.append("g")
-      .attr("class", "nodes")
-      .selectAll("circle")
-      .data(nodes)
-      .enter().append("circle")
+    if (typeof node === 'undefined') {
+      console.log('new')
+      link = svg.append("g")
+                  .attr("class", "links")
+                  .selectAll("line")
+                  .data(links)
+                  .enter().append("line")
+                  .attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+      node = svg.append("g")
+        .attr("class", "nodes")
+        .selectAll("circle")
+        .data(nodes)
+        .enter().append("circle")
+          .attr("r", 5)
+          .attr("fill", function(d) { return color(d.gender); })
+          .call(d3.drag()
+              .on("start", dragstarted)
+              .on("drag", dragged)
+              .on("end", dragended));
+        node.append("title").text(function(d) { return d.id; });
+
+        simulation
+            .nodes(nodes)
+            .on("tick", ticked);
+
+        simulation.force("link")
+            .links(links);
+    } else {
+      console.log('already initialized')
+      link.data(links)
+      link.exit().remove();
+      link.enter().append("line").attr("stroke-width", function(d) { return Math.sqrt(d.value); });
+
+      node.data(nodes);
+      node.exit().remove();
+      node.enter().append("circle")
         .attr("r", 5)
         .attr("fill", function(d) { return color(d.gender); })
         .call(d3.drag()
@@ -63,14 +87,14 @@
             .on("drag", dragged)
             .on("end", dragended));
 
-    node.append("title").text(function(d) { return d.id; });
+      simulation
+          .nodes(nodes)
+          .on("tick", ticked);
 
-    simulation
-        .nodes(nodes)
-        .on("tick", ticked);
-
-    simulation.force("link")
-        .links(links);
+      simulation.force("link")
+          .links(links);
+      simulation.alpha(1).restart();
+    }
 
     function ticked() {
       link
@@ -83,26 +107,6 @@
           .attr("cy", function(d) { return d.y; });
     }
   }
-
-  // function restart(filename) {
-  //   d3.json("dist/time1_json.json", function(error, graph) {
-  //     // Apply the general update pattern to the nodes.
-  //     node = node.data(nodes, function(d) { return d.id;});
-  //     node.exit().remove();
-  //     node = node.enter().append("circle").attr("fill", function(d) { return color(d.id); }).attr("r", 8).merge(node);
-  //
-  //     // Apply the general update pattern to the links.
-  //     link = link.data(links, function(d) { return d.source.id + "-" + d.target.id; });
-  //     link.exit().remove();
-  //     link = link.enter().append("line").merge(link);
-  //
-  //     // Update and restart the simulation.
-  //     simulation.nodes(nodes);
-  //     simulation.force("link").links(links);
-  //     simulation.alpha(1).restart();
-  //   }
-  // }
-
 
   // var iteration = 1;
   // var t = d3.timer(function(elapsed) {
