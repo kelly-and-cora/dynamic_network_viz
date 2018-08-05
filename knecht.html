@@ -30,18 +30,25 @@
   var node;
   var link;
 
-  var timer = d3.timer(callback);
-  var t = d3.timer(function(elapsed) {
-    console.log(elapsed);
-    if (elapsed > 3000) t.stop();
-  }, 2000);
-
   d3.json("dist/time1_json.json", function(error, graph) {
     if (error) throw error;
     nodes = graph.nodes;
     links = graph.links;
     loadGraph(nodes, links);
   })
+
+  var iteration = 2
+  var t = d3.interval(function(elapsed) {
+    if (iteration === 4) {t.stop();}
+    var filename = "dist/time" + iteration + "_json.json";
+    d3.json(filename, function(error, graph) {
+      if (error) throw error;
+      nodes = graph.nodes;
+      links = graph.links;
+      loadGraph(nodes, links);
+    })
+    iteration++;
+  }, 2000);
 
   function loadGraph(nodes, links) {
     if (typeof node === 'undefined') {
@@ -107,19 +114,6 @@
           .attr("cy", function(d) { return d.y; });
     }
   }
-
-  // var iteration = 1;
-  // var t = d3.timer(function(elapsed) {
-  //   var filename = "dist/time" + iteration + "_json.json";
-  //   ++iteration;
-  //   if (iteration === 4) t.stop();
-  //   console.log("iteration", iteration);
-  //   restart(filename);
-  // }, 1000);
-  //
-  // function loadGraph(filename) {
-  //
-  // }
 
   function dragstarted(d) {
     if (!d3.event.active) simulation.alphaTarget(0.3).restart();
