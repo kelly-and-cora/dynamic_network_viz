@@ -1,0 +1,4 @@
+/* start in a star tree
+distance matrix
+choose the smallest number in the distance matrix. These two are joined */
+{"nodes": [{"gender": 1, "id": 1}, {"gender": 1, "id": 2}, {"gender": 1, "id": 3}, {"gender": 2, "id": 4}], "links": [{"source": "1", "target": "3"}, {"source": "1", "target": "2"}, {"source": "1", "target": "4"}]}
